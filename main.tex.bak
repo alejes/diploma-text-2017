@@ -1,0 +1,12 @@
+\input{head.tex}
+
+\maketitle
+\tableofcontents
+
+\input{chapter0/chapter0.tex}
+\input{chapter1/chapter1.tex}
+
+\bibliographystyle{ugost2008ls}
+\bibliography{diploma.bib}
+
+\end{document}
