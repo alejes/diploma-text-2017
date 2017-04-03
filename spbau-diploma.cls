@@ -341,3 +341,7 @@
 \ifx0#1{\bfseries Определение \thesection.\arabic{definition}.\hskip 8pt}%
 \else{\bfseries Определение \thesection.\arabic{definition} {\normalfont(#1)}.}%
 \fi\itshape } {\normalfont\par\vspace{2mm}}
+
+
+
+\usepackage{minted}
