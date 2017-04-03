@@ -12,9 +12,9 @@
 В зависимости от типизации, языки программирования можно рассматривать как представителей одной из следующих групп.
 \begin{itemize}
 \itemsep-1mm
-\item Языки с статической типизацией
-\item Языки с динамической типизацией
-\item Языки с постепенной типизацией
+\item Языки с статической типизацией (static typing languages)
+\item Языки с динамической типизацией (dynamic typing languages)
+\item Языки с постепенной типизацией (gradual typing  languages)
 \end{itemize}
 
 
@@ -39,7 +39,7 @@
     }
 
     x.method1()
-\end{minted}
+\end{minted} 
 
 \vskip4pt
 
@@ -71,6 +71,7 @@
     \item Упрощается реализация предметно-ориентированных языков - языков упрощающих решение прикладных задания в некоторой специализированной области
     \item TODO DOM  ОБЪЯСНИ СЛОВАМИ!!!
 \end{itemize}
+\cite{todo:TODO}
 
 Возможны два подхода к постепенной типизации. У нас изначально может быть статически типизированный язык, и в нём, для некоторых выражений мы будем помечать, что их тип будет известен только в момент выполнения. Таким путём пошли языки C{\#}, Dart, Perl 6. Противоположным подходом является ситуация, что у нас есть динамически типизированный язык, и мы к нему добавляем некоторые ограничения на типы. Эти ограничения могут проверяться во время выполнения, или в момент компиляции, в зависимости от реализации языка программирования. Таким путём пошли языки PHP 7 , TypeScript, Python.
 
@@ -100,6 +101,7 @@ PHP является динамическим языком. В его седьм
         var_dump(add("1", "2")); // int(3)
     ?>
 \end{minted}
+ЕЩЁ!!!!! \cite{todo:TODO}
 
 \subsection{Python}
 Аналогично PHP 7, в Python также можно аннотировать аргументы и возвращаемое значение \cite{wiki:pythonPep484TypeHints}. В типах можно выражать и какие-то более сложные составные конструкции, например тип суммы типов выглядит так.
@@ -116,6 +118,41 @@ PHP является динамическим языком. В его седьм
             e = [e]
         ...
 \end{minted}
+
+\subsection{Groovy}
+
+Groovy является динамическим языком. Для обеспечения частичной типизации, в нём есть два механизма. Предположим, у нас есть какой-то код на этом языке.
+
+\begin{minted}[mathescape,
+               linenos,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{groovy}
+    class A {
+        def foo(x) {
+            return x + 1
+        }
+    }
+\end{minted}
+
+Мы можем, также как и в предыдущих языках, проаннотировать все его компоненты типами.
+
+\begin{minted}[mathescape,
+               linenos,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{groovy}
+    class A {
+        int foo(int x) {
+            return x + 1
+        }
+    }
+\end{minted}
+
+Другим способом является добавление к классу аннотации \textit{@CompileStatic} \cite{groovy:compileStatic}. В проаннотированные таким образом классах, будут осуществлены проверки типов в момент компиляции.
+
 
 
 \subsection{C{\#}}
@@ -146,7 +183,7 @@ PHP является динамическим языком. В его седьм
 System.Int32
 System.Int32
 \end{verbatim}
-Чтобы заметить разницу между \textit{dynamic} и \textit{object}, можно рассмотреть следующий пример.
+    Чтобы заметить разницу между \textit{dynamic} и \textit{object}, можно рассмотреть следующий пример.
 
 \begin{minted}[mathescape,
                linenos,
@@ -159,3 +196,26 @@ obj = obj + 3;
 \end{minted}
 
 Так как объект \textit{obj} имеет тип \textit{object}, который не поддерживает операцию прибавления, мы получим ошибку компиляции. С другой стороны, переменная \textit{dyn} имеет при компиляции тип \textit{dynamic}, который тоже не поддерживает операцию прибавления, но он откладывает проверку на момент времени выполнения. При выполнении же, мы обнаруживаем тип \textit{System.Int32}, на котором успешно реализуем требуемую операцию.
+
+\subsection{Scala}
+
+\begin{minted}[mathescape,
+               linenos,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{scala}
+    class MyRouter extends Dynamic{
+        def selectDynamic(name: String): T = {}
+        def updateDynamic(name: String)(value: T): Unit = {}
+        def applyDynamic(methodName: String)(args: Any*) {
+            println(s"You called '$methodName' method with " +
+            s"following arguments: ${args mkString ", "}")
+        }
+        def applyDynamicNamed(name: String)(args: (String, Any)*) {
+            println(s"You called '$name' method with " +
+                s"following argiuments: 
+                ${args map (a=>a._1+"="+a._2) mkString ","}")
+        }
+    }
+\end{minted}
