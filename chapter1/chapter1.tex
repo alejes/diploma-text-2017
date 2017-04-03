@@ -80,7 +80,7 @@
 
 \subsection{PHP 7}
 
-В PHP 7 добавили возможность аннотировать возвращаемое значение и аргументы функций типами \cite{wiki:phpScalarTypeHints}.
+PHP является динамическим языком. В его седьмой версии добавили возможность аннотировать возвращаемое значение и аргументы функций типами \cite{wiki:phpScalarTypeHints}.
 
 \begin{minted}[mathescape,
                linenos,
@@ -102,7 +102,7 @@
 \end{minted}
 
 \subsection{Python}
-Аналогично PHP 7, в Python также можно аннотировать аргументы и вовзвращаемое значение \cite{wiki:pythonPep484TypeHints}. В типах можно выражать и какие-то более сложные составные конструкции, например тип суммы типов выглядит так.
+Аналогично PHP 7, в Python также можно аннотировать аргументы и возвращаемое значение \cite{wiki:pythonPep484TypeHints}. В типах можно выражать и какие-то более сложные составные конструкции, например тип суммы типов выглядит так.
 \begin{minted}[mathescape,
                linenos,
                numbersep=5pt,
@@ -116,3 +116,46 @@
             e = [e]
         ...
 \end{minted}
+
+
+\subsection{C{\#}}
+
+    C{\#} является первым представителем языков, которые изначально были статически типизированы. В версии 4.0 в нём добавили возможность помечать некоторые выражения типом \textit{dynamic}. Поведение этого типа, во многом, схоже с поведением типа \textit{object}, являющимся самым общим типом в иерархии наследования. В частности, переменные типа \textit{dynamic}, компилируются в тип \textit{object}. Поэтому, тип  \textit{dynamic} существует только в процессе компиляции, и отсутствует во время выполнения. В операциях, которые содержат в своей части выражения помеченные типом \textit{dynamic} не выполняется проверка типов компилятором \cite{msdn:dynamicType}.
+
+\begin{minted}[mathescape,
+               linenos,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{csharp}
+    class Program {
+        static void Main(string[] args) {
+            dynamic dyn = 1;
+            object obj = 1;
+
+            // Rest the mouse pointer over dyn and obj to see their
+            // types at compile time.
+            System.Console.WriteLine(dyn.GetType());
+            System.Console.WriteLine(obj.GetType());
+        }
+    }
+\end{minted}
+
+В результате мы получим один и тот же тип для обеих переменных.
+\begin{verbatim}
+System.Int32
+System.Int32
+\end{verbatim}
+Чтобы заметить разницу между \textit{dynamic} и \textit{object}, можно рассмотреть следующий пример.
+
+\begin{minted}[mathescape,
+               linenos,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{csharp}
+dyn = dyn + 3;  
+obj = obj + 3;  
+\end{minted}
+
+Так как объект \textit{obj} имеет тип \textit{object}, который не поддерживает операцию прибавления, мы получим ошибку компиляции. С другой стороны, переменная \textit{dyn} имеет при компиляции тип \textit{dynamic}, который тоже не поддерживает операцию прибавления, но он откладывает проверку на момент времени выполнения. При выполнении же, мы обнаруживаем тип \textit{System.Int32}, на котором успешно реализуем требуемую операцию.
