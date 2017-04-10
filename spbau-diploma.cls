@@ -346,3 +346,5 @@
 
 \usepackage{minted}
 \usepackage{verbatim}
+
+\newcommand{\at}{\makeatletter @\makeatother}
