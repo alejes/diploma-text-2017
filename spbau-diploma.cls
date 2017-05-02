@@ -348,3 +348,23 @@
 \usepackage{verbatim}
 
 \newcommand{\at}{\makeatletter @\makeatother}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+
+
+
+
+\usepackage{tocloft}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+\newcommand{\intro}[1]{
+    \stepcounter{section}
+    \section*{\hfill ПРИЛОЖЕНИЕ \arabic{section}}
+    \begin{center}
+        \bf{#1}
+    \end{center}
+    \markboth{\MakeUppercase{#1}}{}
+    \addcontentsline{toc}{section}{Приложение \arabic{section}. #1}
+}
