@@ -348,6 +348,72 @@ Z-функция от строки это массив совпадающий с
 
 На основании опыта однопоточной версии, имеет смысл рассмотреть версию решения, при которой не выполняется установка целевого метода. В таблице \ref{tab:overloads8ThreadNoTarget} представлены результаты теста. Мы видим улучшение производительности по сравнению с обычным решением в среднем в 6.40 раз, однако оно медленнее традиционного решения Groovy в 2.11 раз.
 
+\begin{figure}
+\caption{\label{graph:parallListDynObjects}Результаты теста: Параллельное разрешение перегрузок на списке динамических объектов. По данным таблиц \ref{tab:parallListDynObjects} и \ref{tab:overloads8ThreadNoTarget}.}
+\begin{tikzpicture}
+\begin{semilogyaxis}[
+    legend style={at={(axis cs:8.6, 10000 )},anchor=south west},
+    legend cell align = left,
+    %height = 0.6\paperheight, 
+	width = 0.75\paperwidth,
+	xlabel = Число аргументов у функции с 10 перегрузками,
+	ylabel = Время работы (мкс)
+]
+\legend{ 
+	Groovy (invokedynamic),
+	Kotlin (динамическая типизация),
+	Groovy (динамическая типизация)
+};
+\addplot coordinates {
+	(5 , 36797.990) (7 , 42375.937) (10, 47780.838) (13, 54573.148) 
+};
+\addplot coordinates {
+    ( 5, 1122.688) (7 , 1189.027) (10, 1404.494) (13, 1499.107) 
+};
+\addplot coordinates {
+    ( 5, 240.078) ( 7, 287.055) (10, 350.449) (13, 416.978) 
+};
+
+    
+\end{semilogyaxis}
+\end{tikzpicture}
+\end{figure}
+
+
+
+
+
+\begin{figure}
+\caption{\label{graph:parallListDynObjectsByArgs}Результаты теста: Параллельное разрешение перегрузок на списке динамических объектов. По данным таблиц \ref{tab:parallListDynObjects} и \ref{tab:overloads8ThreadNoTarget}.}
+\begin{tikzpicture}
+\begin{semilogyaxis}[
+    legend style={at={(axis cs:11.75, 10000 )},anchor=south west},
+    legend cell align = left,
+    %height = 0.6\paperheight, 
+	width = 0.75\paperwidth,
+	xlabel = Число перегрузок у функции с 5 аргументами,
+	ylabel = Время работы (мкс)
+]
+\legend{ 
+	Groovy (invokedynamic),
+	Groovy (динамическая типизация),
+    Kotlin (динамическая типизация)
+};
+\addplot coordinates {
+	(5 , 37728.824) (10, 36797.990) (15, 43421.477) (20, 45227.596)
+};
+\addplot coordinates {
+    (5 ,  1164.237) (10,  1122.688)(15,  1159.626) (20,  1117.987)
+};
+\addplot coordinates {
+    (5 , 552.467) (10, 635.103) (15, 706.075) (20, 756.651) 
+};
+    
+\end{semilogyaxis}
+\end{tikzpicture}
+\end{figure}
+
+
 \subsection{Анализ результатов}
 
 Посмотрев на результаты работы всех тестов, мы можем сделать вывод, что представленное динамическое расширение языка Kotlin обыгрывает решение языка Groovy при отсутствии агрессивного изменения типов в точке вызова. При агрессивной смене вызываемых методов в однопоточном режиме существует модификация, которая также предоставляет преимущество в производительности. Однако, в некоторых тестах наблюдается ухудшение производительности динамического решения Kotlin, по сравнению со статическим решением, обладающее хуже чем линейной зависимостью. 
